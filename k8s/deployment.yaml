@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: italliance-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: italliance
+  template:
+    metadata:
+      labels:
+        app: italliance
+    spec:
+      containers:
+      - name: italliance-container
+        image: rafeel124/italliance-app:latest
+        ports:
+        - containerPort: 8080
