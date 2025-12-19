@@ -16,4 +16,4 @@ spec:
       - name: italliance-container
         image: rafeel124/italliance-app:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 3000

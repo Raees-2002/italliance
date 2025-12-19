@@ -37,5 +37,19 @@ pipeline {
                 }
             }
         }
+    
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh '''
+                kubectl apply -f k8s/
+                kubectl rollout status deployment/italliance-deployment
+                '''
+            }
+        }
     }
 }
+    
+    
+    
+    
+    
