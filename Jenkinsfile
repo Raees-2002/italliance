@@ -7,6 +7,7 @@ pipeline {
     }
 
     stages {
+
         stage('Clone Repo') {
             steps {
                 git branch: 'main',
@@ -14,15 +15,13 @@ pipeline {
             }
         }
 
-        stage('Build Image') {
+        stage('Build Docker Image') {
             steps {
-                sh '''
-                docker build -t $IMAGE_NAME:$IMAGE_TAG .
-                '''
+                sh 'docker build -t $IMAGE_NAME:$IMAGE_TAG .'
             }
         }
 
-        stage('Push Image') {
+        stage('Push Image to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(
                     credentialsId: 'dockerhub-creds',
@@ -32,17 +31,15 @@ pipeline {
                     sh '''
                     echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                     docker push $IMAGE_NAME:$IMAGE_TAG
-                    docker logout
                     '''
                 }
             }
         }
-    
-        
+
+        stage('Deploy Notice') {
+            steps {
+                echo "Image pushed. Deploy to Kubernetes using kubectl."
+            }
+        }
     }
 }
-    
-    
-    
-    
-    
