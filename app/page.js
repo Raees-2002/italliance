@@ -24,6 +24,7 @@ export default function Home() {
             Save and see your changes instantly.
           </li>
         </ol>
+        res.send("Hello from version 2 🚀");
 
         <div className="flex gap-4 items-center flex-col sm:flex-row">
           <a
