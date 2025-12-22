@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "rafeel124/italliance-app"
-        IMAGE_TAG  = "latest"
+        IMAGE_TAG  = "${BUILD_NUMBER}"
     }
 
     stages {
@@ -36,9 +36,14 @@ pipeline {
             }
         }
 
-        stage('Deploy Notice') {
+        stage('Deploy to Kubernetes') {
             steps {
-                echo "Image pushed. Deploy to Kubernetes using kubectl."
+                sh '''
+                kubectl set image deployment/italliance-deployment \
+                italliance-container=$IMAGE_NAME:$IMAGE_TAG
+
+                kubectl rollout status deployment/italliance-deployment
+                '''
             }
         }
     }
